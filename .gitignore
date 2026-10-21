@@ -1,0 +1,12 @@
+.venv/
+.centerstage/
+__pycache__/
+.pytest_cache/
+*.pyc
+dist/
+evidence/
+.DS_Store
+member_identification_frames/
+server*.log
+*.bak
+*.backup

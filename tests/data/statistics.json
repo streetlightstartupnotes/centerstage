@@ -1,0 +1,136 @@
+{
+  "frames": [
+    {
+      "t": 0,
+      "end": 1,
+      "shot": 0,
+      "people": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        }
+      ],
+      "centers": []
+    },
+    {
+      "t": 1,
+      "end": 3,
+      "shot": 0,
+      "people": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        }
+      ],
+      "centers": [
+        "a"
+      ]
+    },
+    {
+      "t": 3,
+      "end": 5,
+      "shot": 0,
+      "people": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        }
+      ],
+      "centers": [
+        "a",
+        "b"
+      ]
+    },
+    {
+      "t": 5,
+      "end": 6,
+      "shot": 1,
+      "people": [
+        {
+          "id": "c"
+        }
+      ],
+      "centers": [
+        "c"
+      ]
+    },
+    {
+      "t": 6,
+      "end": 7,
+      "shot": 1,
+      "people": [
+        {
+          "id": "c"
+        }
+      ],
+      "centers": []
+    },
+    {
+      "t": 7,
+      "end": 9,
+      "shot": 1,
+      "people": [
+        {
+          "id": "c"
+        }
+      ],
+      "centers": [
+        "c"
+      ]
+    },
+    {
+      "t": 10,
+      "end": 11,
+      "shot": 2,
+      "people": [
+        {
+          "id": "d"
+        }
+      ],
+      "centers": [
+        "d"
+      ]
+    }
+  ],
+  "labels": {
+    "a": {
+      "name": "Sample A",
+      "evidence": "user_confirmed"
+    }
+  },
+  "annotations": [
+    {
+      "track_id": "b",
+      "start": 4,
+      "end": 5,
+      "name": "Sample A",
+      "evidence": "explicit_person_annotation",
+      "source_url": "https://example.org/synthetic-annotation",
+      "source_note": "Synthetic test fixture with explicit person and time correspondence."
+    },
+    {
+      "track_id": "c",
+      "start": 5.5,
+      "end": 8,
+      "name": "Sample A",
+      "evidence": "explicit_person_annotation",
+      "source_url": "https://example.org/synthetic-annotation",
+      "source_note": "Synthetic test fixture with explicit person and time correspondence."
+    },
+    {
+      "track_id": "d",
+      "start": 10,
+      "end": 11,
+      "name": "Sample B",
+      "evidence": "explicit_person_annotation",
+      "source_url": "https://example.org/synthetic-annotation",
+      "source_note": "Synthetic test fixture with explicit person and time correspondence."
+    }
+  ]
+}
