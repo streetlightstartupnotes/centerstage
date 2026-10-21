@@ -6,7 +6,9 @@ Local stage-center analysis. Import a performance video and review center boxes,
 
 ![English interface: A2O LITE NEON at 0:08, centers XILI and AIJING](docs/images/neon-a2o-lite-en.png)
 
-This is the English interface for the local job of A2O LITE’s debut stage, NEON, at **0:08**. The two centers are **XILI** and **AIJING**. Timeline colors follow members who already have an explicit annotation on this job, and the ranking is that job’s cumulative center time. The source video, model weights, and `.centerstage` job data are not in the repository. A newly imported video does not receive these names.
+This is the English interface for the A2O LITE debut stage, NEON, at **0:08**. The two centers are **XILI** and **AIJING**. Timeline colors follow members who already have an explicit annotation on this job, and the ranking is that job’s cumulative center time.
+
+The case video is the 1280×720, 3-minute-44-second file [a2o-lite-neon.mp4](https://github.com/streetlightstartupnotes/centerstage/releases/download/v0.2.0/a2o-lite-neon.mp4) (126 MB). It is larger than Git’s per-file limit, so it is attached to the [v0.2.0 release](https://github.com/streetlightstartupnotes/centerstage/releases/tag/v0.2.0). Model weights and other local jobs stay out of the repository. Importing this file again does not automatically restore the names in the screenshot.
 
 Give this repository to an existing agent. Setup, startup, source research, and evidence-backed annotation are documented in [AGENTS.md](AGENTS.md) and [AGENT_GUIDE.md](AGENT_GUIDE.md).
 

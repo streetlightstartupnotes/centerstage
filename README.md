@@ -6,7 +6,9 @@
 
 ![中文界面：A2O LITE《NEON》0:08，双 C 为 XILI 与 AIJING](docs/images/neon-a2o-lite-zh.png)
 
-截图是中文界面里，本地任务「李秀满女团 A2O LITE 出道曲」在 **0:08** 的画面。当时的双 C 是 **XILI** 和 **AIJING**。时间轴颜色对应这条任务里已有明确标注的成员，右侧是该任务的累计 C 位时间。原视频、模型权重和 `.centerstage` 任务数据不在仓库中。新导入的视频不会自动带上这些姓名。
+截图是中文界面里，案例「李秀满女团 A2O LITE 出道曲」在 **0:08** 的画面。当时的双 C 是 **XILI** 和 **AIJING**。时间轴颜色对应这条任务里已有明确标注的成员，右侧是该任务的累计 C 位时间。
+
+案例原片是 1280×720、3 分 44 秒的 [a2o-lite-neon.mp4](https://github.com/streetlightstartupnotes/centerstage/releases/download/v0.2.0/a2o-lite-neon.mp4)（126 MB）。它超过 Git 单文件上限，所以放在 [v0.2.0 发布附件](https://github.com/streetlightstartupnotes/centerstage/releases/tag/v0.2.0)。模型权重和本机其他任务仍不在仓库里。把这条片子重新导入后，不会自动带上截图里的姓名。
 
 把仓库交给已有的 Agent 使用。安装、启动、来源检索和有依据的标注流程见 [AGENTS.md](AGENTS.md) 与 [AGENT_GUIDE.md](AGENT_GUIDE.md)。
 
