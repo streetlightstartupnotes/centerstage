@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>女团C位监测系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .upload-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            background: #f8f9ff;
+            border-color: #764ba2;
+        }
+        
+        .upload-area.dragover {
+            background: #f0f3ff;
+            border-color: #764ba2;
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .analysis-section {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .analysis-section.active {
+            display: block;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .video-panel {
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        #videoCanvas {
+            width: 100%;
+            display: block;
+        }
+        
+        .stats-panel {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .current-center {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .current-center h3 {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .current-center .name {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .rankings {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .rankings h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .rank-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .rank-item:hover {
+            background: #e9ecef;
+            transform: translateX(4px);
+        }
+        
+        .rank-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .rank-info {
+            flex: 1;
+        }
+        
+        .rank-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .rank-time {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-processing {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .member-count {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .member-count .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .member-count .label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎭 女团C位监测系统</h1>
+            <p class="subtitle">AI驱动 · 实时识别 · 自动标注</p>
+        </header>
+        
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📹</div>
+                <h2 style="margin-bottom: 10px;">上传女团表演视频</h2>
+                <p style="color: #666; margin-bottom: 20px;">支持 MP4, AVI, MOV 格式</p>
+                <input type="file" id="fileInput" accept="video/*">
+                <button class="btn" onclick="document.getElementById('fileInput').click()">
+                    选择视频文件
+                </button>
+            </div>
+        </div>
+        
+        <div class="analysis-section" id="analysisSection">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>分析中</h2>
+                <span class="status-badge status-processing" id="statusBadge">处理中</span>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 10px;">
+                帧 <span id="currentFrame">0</span> / <span id="totalFrames">0</span>
+                (<span id="progressPercent">0</span>%)
+            </p>
+            
+            <div class="content-grid">
+                <div class="video-panel">
+                    <canvas id="videoCanvas"></canvas>
+                </div>
+                
+                <div class="stats-panel">
+                    <div class="member-count">
+                        <div class="number" id="memberCount">0</div>
+                        <div class="label">识别成员数</div>
+                    </div>
+                    
+                    <div class="current-center">
+                        <h3>当前C位</h3>
+                        <div class="name" id="currentCenterName">-</div>
+                    </div>
+                    
+                    <div class="rankings">
+                        <h3>📊 C位时长排行</h3>
+                        <div id="rankingsList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentJobId = null;
+        let eventSource = null;
+        
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const analysisSection = document.getElementById('analysisSection');
+        const canvas = document.getElementById('videoCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 拖拽上传
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileUpload(files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileUpload(e.target.files[0]);
+            }
+        });
+        
+        async function handleFileUpload(file) {
+            const formData = new FormData();
+            formData.append('video', file);
+            
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.job_id) {
+                    currentJobId = data.job_id;
+                    analysisSection.classList.add('active');
+                    startStreaming(data.job_id);
+                } else {
+                    alert('上传失败: ' + (data.error || '未知错误'));
+                }
+            } catch (error) {
+                alert('上传失败: ' + error.message);
+            }
+        }
+        
+        function startStreaming(jobId) {
+            // 使用轮询而不是SSE，因为SSE可能有兼容性问题
+            pollJobStatus(jobId);
+        }
+        
+        async function pollJobStatus(jobId) {
+            const pollInterval = setInterval(async () => {
+                try {
+                    const response = await fetch(`/api/job/${jobId}/status`);
+                    const data = await response.json();
+                    
+                    updateUI(data);
+                    
+                    if (data.status === 'completed' || data.status === 'error') {
+                        clearInterval(pollInterval);
+                        document.getElementById('statusBadge').textContent = 
+                            data.status === 'completed' ? '✓ 完成' : '✗ 错误';
+                        document.getElementById('statusBadge').className = 
+                            'status-badge status-completed';
+                    }
+                } catch (error) {
+                    console.error('获取状态失败:', error);
+                }
+            }, 200);  // 每200ms轮询一次
+        }
+        
+        function updateUI(data) {
+            // 更新进度
+            document.getElementById('progressFill').style.width = data.progress + '%';
+            document.getElementById('currentFrame').textContent = data.current_frame;
+            document.getElementById('totalFrames').textContent = data.total_frames;
+            document.getElementById('progressPercent').textContent = Math.round(data.progress);
+            
+            // 更新结果
+            if (data.current_result && data.current_result.stats) {
+                const stats = data.current_result.stats;
+                
+                // 更新成员数
+                document.getElementById('memberCount').textContent = stats.total_members || 0;
+                
+                // 更新当前C位
+                const centerName = stats.current_center_name || '检测中...';
+                document.getElementById('currentCenterName').textContent = centerName;
+                
+                // 更新排行榜
+                updateRankings(stats.members || []);
+            }
+        }
+        
+        function updateRankings(members) {
+            const rankingsList = document.getElementById('rankingsList');
+            
+            if (members.length === 0) {
+                rankingsList.innerHTML = '<p style="text-align:center;color:#999;">暂无数据</p>';
+                return;
+            }
+            
+            rankingsList.innerHTML = members.map((member, index) => `
+                <div class="rank-item">
+                    <div class="rank-number">${index + 1}</div>
+                    <div class="rank-info">
+                        <div class="rank-name">${member.name || `成员 ${member.identity_id}`}</div>
+                        <div class="rank-time">${member.center_time.toFixed(1)}秒</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
